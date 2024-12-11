@@ -1,0 +1,38 @@
+body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #032000;
+}
+
+/*
+bright green: #15ff00
+dark green: #032000
+active green: #006500
+light green: #d1ffcd
+*/
+
+#board {
+    height: 800px;
+    width: 800px;
+    background-color: #15ff00;
+    display: grid;
+    border-radius: 5px;
+    gap: 3px;
+    padding: 3px;
+}
+
+.cell {
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: #006500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
