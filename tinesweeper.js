@@ -40,14 +40,27 @@ function filterClick(event){ // Get cell that was clicked.
 
 function onLeftClick(row, col){
     openBoard(row, col);
-
-    console.log(cells[row][col]);
 }
 
 function onMiddleClick(row, col){
+    // if(!cells[row][col].revealed){ return; }
+    // var flagCount = 0;
+    // for(var i = -1; i < 2; i++){
+    // for(var j = -1; j < 2; j++){
+    //     if(cells[row][col]){
+
+    //     }
+    // }}
 }
 
 function onRightClick(row, col){
+    cells[row][col].hasFlag = !cells[row][col].hasFlag;
+    if(cells[row][col].hasFlag){
+        cells[row][col].htmlElement.innerText = '🚩'; 
+    }
+    else {
+        cells[row][col].htmlElement.innerText = ''; 
+    }
 }
 
 function calcCellNumbers() {
@@ -83,11 +96,11 @@ function getNumber(row, col){
 }
 
 function openBoard(row, col) {
-    var cell = cells[row][col];
-    debugger;
-
     if(isOutOfBounds(row, col)){ return; };
-    if(cell.number == -1){ return; };
+    
+    var cell = cells[row][col];
+
+    if(cell.number == -1){ reveal(cell); };
     if(cell.revealed){ return; };
     reveal(cell);
     if(cell.number == 0){ 
@@ -117,13 +130,55 @@ function openBoard(row, col) {
 
 function reveal(cell){
     cell.revealed = true;
+    
     if(cell.number == -1){
-        cell.htmlElement.innerText = '💣';
-        message.innerText = "GAME OVER";
+        gameOver();
+        return;
     }
-    else {
-        cell.htmlElement.innerText = cell.number;
+    // debugger;
+
+    cell.htmlElement.style.backgroundColor = "#d1ffcd";
+
+    if(cell.number == 0){
+        return;
     }
+
+    cell.htmlElement.innerText = cell.number; 
+
+    switch(cell.number){
+    case 0:
+        break;
+    case 1:
+        cell.htmlElement.style.color = "blue"; break;
+    case 2:
+        cell.htmlElement.style.color = "green"; break;
+    case 3:
+        cell.htmlElement.style.color = "red"; break;
+    case 4:
+        cell.htmlElement.style.color = "purple"; break;
+    case 5:
+        cell.htmlElement.style.color = "darkred"; break;
+    case 6:
+        cell.htmlElement.style.color = "teal"; break;
+    case 7:
+        cell.htmlElement.style.color = "#bd4aa0"; break;
+    case 8:
+        cell.htmlElement.style.color = "#000000"; break;
+    }
+}
+
+function gameOver() {
+    revealMines();
+    message.innerText = "GAME OVER";
+}
+
+function revealMines(){
+    for(var i = 0; i < cells.length; i++){
+    for(var j = 0; j < cells[i].length; j++){
+        if(cells[i][j].hasBomb){
+            cells[i][j].htmlElement.innerText = '💣';
+        }
+    }}
 }
 
 function isOutOfBounds(row, col){
