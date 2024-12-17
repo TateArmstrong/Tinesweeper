@@ -43,17 +43,30 @@ function onLeftClick(row, col){
 }
 
 function onMiddleClick(row, col){
-    // if(!cells[row][col].revealed){ return; }
-    // var flagCount = 0;
-    // for(var i = -1; i < 2; i++){
-    // for(var j = -1; j < 2; j++){
-    //     if(cells[row][col]){
+    if(!cells[row][col].revealed){ return; }
 
-    //     }
-    // }}
+    var flagCount = 0;
+    for(var i = -1; i < 2; i++){
+    for(var j = -1; j < 2; j++){
+        if(isOutOfBounds(row + i, col + j)){ continue; }
+        if(cells[row + i][col + j].hasFlag){
+            flagCount++;
+        }
+    }}
+
+    if(cells[row][col].number != flagCount){ return; }
+
+    for(var i = -1; i < 2; i++){
+    for(var j = -1; j < 2; j++){
+        if(isOutOfBounds(row + i, col + j)){ continue; }
+        if(cells[row + i][col + j].revealed){ continue; }
+        if(cells[row + i][col + j].hasFlag){ continue; }
+        openBoard(row + i, col + j);
+    }}
 }
 
 function onRightClick(row, col){
+    if(cells[row][col].revealed){ return; }
     cells[row][col].hasFlag = !cells[row][col].hasFlag;
     if(cells[row][col].hasFlag){
         cells[row][col].htmlElement.innerText = '🚩'; 
